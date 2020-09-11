@@ -1,0 +1,9 @@
+---
+Name: sapphiretest-orm
+---
+SilverStripe\Core\Injector\Injector:
+  SilverStripe\Dev\State\SapphireTestState:
+    properties:
+      States:
+        fixtures: '%$SilverStripe\Dev\State\FixtureTestState'
+---

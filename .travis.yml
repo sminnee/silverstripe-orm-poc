@@ -1,0 +1,25 @@
+language: php
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 7.1
+      env:
+       - DB=MYSQL
+    - php: 7.2
+      env:
+       - DB=MYSQL
+    - php: 7.3
+      env:
+       - DB=MYSQL
+    - php: 7.4
+      env:
+       - DB=MYSQL
+       - PHPCS_TEST=1
+
+before_script:
+  - composer update
+
+script:
+  - vendor/bin/phpunit
+  - if [[ $PHPCS_TEST ]]; then vendor/bin/phpcs tests src srcDev; fi

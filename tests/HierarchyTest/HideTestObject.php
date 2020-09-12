@@ -21,7 +21,6 @@ class HideTestObject extends DataObject implements TestOnly
 
     private static $extensions = [
         Hierarchy::class,
-        Versioned::class,
     ];
 
     public function cmstreeclasses()

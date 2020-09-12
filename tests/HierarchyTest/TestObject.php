@@ -21,7 +21,6 @@ class TestObject extends DataObject implements TestOnly
 
     private static $extensions = [
         Hierarchy::class,
-        Versioned::class,
     ];
 
     private static $default_sort = 'Title ASC';

@@ -3,14 +3,17 @@
 namespace SilverStripe\ORM\Tests\DataObjectTest;
 
 use SilverStripe\Dev\TestOnly;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\Tests\DataObjectTest;
-use SilverStripe\Security\Member;
 
-class Player extends Member implements TestOnly
+class Player extends DataObject implements TestOnly
 {
     private static $table_name = 'DataObjectTest_Player';
 
     private static $db = [
+        'FirstName' => 'Varchar',
+        'Surname' => 'Varchar',
+        'Email' => 'Varchar',
         'IsRetired' => 'Boolean',
         'ShirtNumber' => 'Varchar',
     ];

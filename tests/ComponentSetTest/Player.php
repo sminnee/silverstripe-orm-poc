@@ -3,9 +3,9 @@
 namespace SilverStripe\ORM\Tests\ComponentSetTest;
 
 use SilverStripe\Dev\TestOnly;
-use SilverStripe\Security\Member;
+use SilverStripe\ORM\DataObject;
 
-class Player extends Member implements TestOnly
+class Player extends DataObject implements TestOnly
 {
     private static $table_name = 'ComponentSetTest_Player';
 

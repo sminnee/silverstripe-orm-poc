@@ -150,21 +150,19 @@ class DataExtensionTest extends SapphireTest
         // in SiteTree->can*() methods to test one single feature reliably with them
 
         $obj = $this->objFromFixture(DataExtensionTest\MyObject::class, 'object1');
-        $websiteuser = $this->objFromFixture(Member::class, 'websiteuser');
-        $admin = $this->objFromFixture(Member::class, 'admin');
 
         $this->assertFalse(
-            $obj->canOne($websiteuser),
+            $obj->canOne(),
             'Both extensions return true, but original method returns false'
         );
 
         $this->assertFalse(
-            $obj->canTwo($websiteuser),
+            $obj->canTwo(),
             'One extension returns false, original returns true, but extension takes precedence'
         );
 
         $this->assertTrue(
-            $obj->canThree($admin),
+            $obj->canThree(),
             'Undefined extension methods returning NULL dont influence the original method'
         );
     }

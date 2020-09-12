@@ -2,12 +2,12 @@
 
 namespace SilverStripe\ORM\Tests;
 
-use SilverStripe\ORM\DataQuery;
-use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\DB;
 use SilverStripe\Dev\SapphireTest;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\DataQuery;
+use SilverStripe\ORM\DB;
+use SilverStripe\ORM\Tests\DataQueryTest\ObjectC;
 use SilverStripe\ORM\Tests\DataQueryTest\ObjectE;
-use SilverStripe\Security\Member;
 
 /**
  * @skipUpgrade
@@ -58,17 +58,17 @@ class DataQueryTest extends SapphireTest
      */
     public function testJoins()
     {
-        $dq = new DataQuery(Member::class);
-        $dq->innerJoin("Group_Members", "\"Group_Members\".\"MemberID\" = \"Member\".\"ID\"");
+        $dq = new DataQuery(ObjectC::class);
+        $dq->innerJoin("ObjectC_ManyTestAs", "\"ObjectC_ManyTestAs\".\"ObjectCID\" = \"ObjectC\".\"ID\"");
         $this->assertSQLContains(
-            "INNER JOIN \"Group_Members\" ON \"Group_Members\".\"MemberID\" = \"Member\".\"ID\"",
+            "INNER JOIN \"ObjectC_ManyTestAs\" ON \"ObjectC_ManyTestAs\".\"ObjectCID\" = \"ObjectC\".\"ID\"",
             $dq->sql($parameters)
         );
 
-        $dq = new DataQuery(Member::class);
-        $dq->leftJoin("Group_Members", "\"Group_Members\".\"MemberID\" = \"Member\".\"ID\"");
+        $dq = new DataQuery(ObjectC::class);
+        $dq->leftJoin("ObjectC_ManyTestAs", "\"ObjectC_ManyTestAs\".\"ObjectCID\" = \"ObjectC\".\"ID\"");
         $this->assertSQLContains(
-            "LEFT JOIN \"Group_Members\" ON \"Group_Members\".\"MemberID\" = \"Member\".\"ID\"",
+            "LEFT JOIN \"ObjectC_ManyTestAs\" ON \"ObjectC_ManyTestAs\".\"ObjectCID\" = \"ObjectC\".\"ID\"",
             $dq->sql($parameters)
         );
     }

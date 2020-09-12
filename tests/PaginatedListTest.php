@@ -334,6 +334,10 @@ class PaginatedListTest extends SapphireTest
 
     public function testFirstLinkContainsCurrentGetParameters()
     {
+        if (!class_exists(HTTPRequest::class)) {
+            $this->markTestSkipped('silverstripe/control needed for full PaginatedList functionality');
+        }
+
         $request = new HTTPRequest(
             'GET',
             'http://example.com/my-cool-page',
@@ -367,6 +371,10 @@ class PaginatedListTest extends SapphireTest
 
     public function testLastLinkContainsCurrentGetParameters()
     {
+        if (!class_exists(HTTPRequest::class)) {
+            $this->markTestSkipped('silverstripe/control needed for full PaginatedList functionality');
+        }
+
         $request = new HTTPRequest(
             'GET',
             'http://example.com/my-cool-page',
@@ -409,6 +417,10 @@ class PaginatedListTest extends SapphireTest
 
     public function testNextLinkContainsCurrentGetParameters()
     {
+        if (!class_exists(HTTPRequest::class)) {
+            $this->markTestSkipped('silverstripe/control needed for full PaginatedList functionality');
+        }
+
         $request = new HTTPRequest(
             'GET',
             'http://example.com/my-cool-page',
@@ -448,6 +460,10 @@ class PaginatedListTest extends SapphireTest
 
     public function testPrevLinkContainsCurrentGetParameters()
     {
+        if (!class_exists(HTTPRequest::class)) {
+            $this->markTestSkipped('silverstripe/control needed for full PaginatedList functionality');
+        }
+
         $request = new HTTPRequest(
             'GET',
             'http://example.com/my-cool-page',

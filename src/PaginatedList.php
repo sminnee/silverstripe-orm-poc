@@ -260,11 +260,7 @@ class PaginatedList extends ListDecorator
         for ($i = $start; $i < $end; $i++) {
             $result->push(new ArrayData([
                 'PageNum' => $i + 1,
-                'Link' => HTTP::setGetVar(
-                    $this->getPaginationGetVar(),
-                    $i * $this->getPageLength(),
-                    ($this->request instanceof HTTPRequest) ? $this->request->getURL(true) : null
-                ),
+                'Link' => $this->urlWithStartVal($i * $this->getPageLength()),
                 'CurrentBool' => $this->CurrentPage() == ($i + 1)
             ]));
         }
@@ -335,11 +331,7 @@ class PaginatedList extends ListDecorator
         }
 
         for ($i = 0; $i < $total; $i++) {
-            $link = HTTP::setGetVar(
-                $this->getPaginationGetVar(),
-                $i * $this->getPageLength(),
-                ($this->request instanceof HTTPRequest) ? $this->request->getURL(true) : null
-            );
+            $link = $this->urlWithStartVal($i * $this->getPageLength());
             $num = $i + 1;
 
             $emptyRange = $num != 1 && $num != $total && (
@@ -445,11 +437,7 @@ class PaginatedList extends ListDecorator
      */
     public function FirstLink()
     {
-        return HTTP::setGetVar(
-            $this->getPaginationGetVar(),
-            0,
-            ($this->request instanceof HTTPRequest) ? $this->request->getURL(true) : null
-        );
+        return $this->urlWithStartVal(0);
     }
 
     /**
@@ -459,11 +447,7 @@ class PaginatedList extends ListDecorator
      */
     public function LastLink()
     {
-        return HTTP::setGetVar(
-            $this->getPaginationGetVar(),
-            ($this->TotalPages() - 1) * $this->getPageLength(),
-            ($this->request instanceof HTTPRequest) ? $this->request->getURL(true) : null
-        );
+        return $this->urlWithStartVal(($this->TotalPages() - 1) * $this->getPageLength());
     }
 
     /**
@@ -475,11 +459,7 @@ class PaginatedList extends ListDecorator
     public function NextLink()
     {
         if ($this->NotLastPage()) {
-            return HTTP::setGetVar(
-                $this->getPaginationGetVar(),
-                $this->getPageStart() + $this->getPageLength(),
-                ($this->request instanceof HTTPRequest) ? $this->request->getURL(true) : null
-            );
+            return $this->urlWithStartVal($this->getPageStart() + $this->getPageLength());
         }
     }
 
@@ -492,11 +472,7 @@ class PaginatedList extends ListDecorator
     public function PrevLink()
     {
         if ($this->NotFirstPage()) {
-            return HTTP::setGetVar(
-                $this->getPaginationGetVar(),
-                $this->getPageStart() - $this->getPageLength(),
-                ($this->request instanceof HTTPRequest) ? $this->request->getURL(true) : null
-            );
+            return $this->urlWithStartVal($this->getPageStart() - $this->getPageLength());
         }
     }
 
@@ -524,5 +500,30 @@ class PaginatedList extends ListDecorator
     public function getRequest()
     {
         return $this->request;
+    }
+
+    /**
+     * Return a URL with the given value for the start querystring var
+     */
+    private function urlWithStartVal(int $start): string
+    {
+        // Use HTTP from the silverstripe/control if available
+        if (class_exists(HTTP::class)) {
+            return HTTP::setGetVar(
+                $this->getPaginationGetVar(),
+                $start,
+                ($this->request instanceof HTTPRequest) ? $this->request->getURL(true) : null
+            );
+
+        // Otherwise use this simple inline implementation
+        } else {
+            if (is_object(($this->request))) {
+                $newRequest = clone $this->request;
+            } else {
+                $newRequest = $this->request;
+            }
+            $newRequest[$this->getPaginationGetVar()] = $start;
+            return "?" . http_build_query($newRequest);
+        }
     }
 }

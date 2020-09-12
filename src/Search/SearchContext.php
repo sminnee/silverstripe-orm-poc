@@ -94,6 +94,10 @@ class SearchContext
      */
     public function __construct($modelClass, $fields = null, $filters = null)
     {
+        if (!class_exists(FieldList::class)) {
+            throw new \LogicException('SearchContext requires the silverstripe/forms package to function');
+        }
+
         $this->modelClass = $modelClass;
         $this->fields = ($fields) ? $fields : new FieldList();
         $this->filters = ($filters) ? $filters : [];

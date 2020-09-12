@@ -2316,6 +2316,10 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
      */
     public function getDefaultSearchContext()
     {
+        if (!class_exists(FieldList::class)) {
+            throw new \LogicException('SearchContext requires the silverstripe/forms package to function');
+        }
+
         return SearchContext::create(
             static::class,
             $this->scaffoldSearchFields(),
@@ -3783,7 +3787,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
                         foreach ($attrs as $name => $spec) {
                             $autoLabels[$name] = _t(
                                 "{$ancestorClass}.{$type}_{$name}",
-                                FormField::name_to_label($name)
+                                class_exists(FormField::class) ? FormField::name_to_label($name) : $name
                             );
                         }
                     }

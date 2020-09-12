@@ -30,6 +30,11 @@ class SearchContextTest extends SapphireTest
 
     public function testResultSetFilterReturnsExpectedCount()
     {
+        if (!class_exists(FieldList::class)) {
+            $this->markTestSkipped('SearhcContext requires silverstripe/forms');
+            return;
+        }
+
         $person = SearchContextTest\Person::singleton();
         $context = $person->getDefaultSearchContext();
         $results = $context->getResults(['Name' => '']);
@@ -59,6 +64,11 @@ class SearchContextTest extends SapphireTest
 
     public function testPartialMatchUsedByDefaultWhenNotExplicitlySet()
     {
+        if (!class_exists(FieldList::class)) {
+            $this->markTestSkipped('SearhcContext requires silverstripe/forms');
+            return;
+        }
+
         $person = SearchContextTest\Person::singleton();
         $context = $person->getDefaultSearchContext();
 
@@ -74,6 +84,11 @@ class SearchContextTest extends SapphireTest
 
     public function testDefaultFiltersDefinedWhenNotSetInDataObject()
     {
+        if (!class_exists(FieldList::class)) {
+            $this->markTestSkipped('SearhcContext requires silverstripe/forms');
+            return;
+        }
+
         $book = SearchContextTest\Book::singleton();
         $context = $book->getDefaultSearchContext();
 
@@ -87,6 +102,11 @@ class SearchContextTest extends SapphireTest
 
     public function testUserDefinedFiltersAppearInSearchContext()
     {
+        if (!class_exists(FieldList::class)) {
+            $this->markTestSkipped('SearhcContext requires silverstripe/forms');
+            return;
+        }
+
         $company = SearchContextTest\Company::singleton();
         $context = $company->getDefaultSearchContext();
 
@@ -102,6 +122,11 @@ class SearchContextTest extends SapphireTest
 
     public function testUserDefinedFieldsAppearInSearchContext()
     {
+        if (!class_exists(FieldList::class)) {
+            $this->markTestSkipped('SearhcContext requires silverstripe/forms');
+            return;
+        }
+
         $company = SearchContextTest\Company::singleton();
         $context = $company->getDefaultSearchContext();
         $this->assertEquals(
@@ -117,6 +142,11 @@ class SearchContextTest extends SapphireTest
 
     public function testRelationshipObjectsLinkedInSearch()
     {
+        if (!class_exists(FieldList::class)) {
+            $this->markTestSkipped('SearhcContext requires silverstripe/forms');
+            return;
+        }
+
         $action3 = $this->objFromFixture(SearchContextTest\Action::class, 'action3');
 
         $project = SearchContextTest\Project::singleton();
@@ -144,6 +174,11 @@ class SearchContextTest extends SapphireTest
 
     public function testCanGenerateQueryUsingAllFilterTypes()
     {
+        if (!class_exists(FieldList::class)) {
+            $this->markTestSkipped('SearhcContext requires silverstripe/forms');
+            return;
+        }
+
         $all = SearchContextTest\AllFilterTypes::singleton();
         $context = $all->getDefaultSearchContext();
         $params = [
@@ -167,6 +202,11 @@ class SearchContextTest extends SapphireTest
 
     public function testStartsWithFilterCaseInsensitive()
     {
+        if (!class_exists(FieldList::class)) {
+            $this->markTestSkipped('SearhcContext requires silverstripe/forms');
+            return;
+        }
+
         $all = SearchContextTest\AllFilterTypes::singleton();
         $context = $all->getDefaultSearchContext();
         $params = [
@@ -180,6 +220,11 @@ class SearchContextTest extends SapphireTest
 
     public function testEndsWithFilterCaseInsensitive()
     {
+        if (!class_exists(FieldList::class)) {
+            $this->markTestSkipped('SearhcContext requires silverstripe/forms');
+            return;
+        }
+
         $all = SearchContextTest\AllFilterTypes::singleton();
         $context = $all->getDefaultSearchContext();
         $params = [
@@ -193,6 +238,11 @@ class SearchContextTest extends SapphireTest
 
     public function testSearchContextSummary()
     {
+        if (!class_exists(FieldList::class)) {
+            $this->markTestSkipped('SearhcContext requires silverstripe/forms');
+            return;
+        }
+
         $filters = [
             'KeywordSearch' => PartialMatchFilter::create('KeywordSearch'),
             'Country' => PartialMatchFilter::create('Country'),

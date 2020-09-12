@@ -1,0 +1,8 @@
+---
+Name: corehtml
+---
+SilverStripe\Core\Injector\Injector:
+  SilverStripe\View\Parsers\HTMLValue:
+    class: SilverStripe\View\Parsers\HTML4Value
+  # Shorthand
+  HTMLValue: '%$SilverStripe\View\Parsers\HTMLValue'

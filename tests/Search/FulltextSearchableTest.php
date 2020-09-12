@@ -16,6 +16,11 @@ class FulltextSearchableTest extends SapphireTest
     {
         parent::setUp();
 
+        if (!class_exists(File::class)) {
+            $this->markTestSkipped('silverstripe/assets needed to run FulltextSearchableTest');
+            return;
+        }
+
         FulltextSearchable::enable(File::class);
     }
 

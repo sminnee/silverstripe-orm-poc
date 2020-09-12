@@ -582,13 +582,17 @@ class DBHTMLTextTest extends SapphireTest
             'Replaced short code with this. home',
             $field->Plain()
         );
-        Config::nest();
-        Director::config()->set('alternate_base_url', 'http://example.com/');
-        $this->assertEquals(
-            '<p>Replaced short code with this. <a href="http://example.com/home">home</a></p>',
-            $field->AbsoluteLinks()
-        );
-        Config::unnest();
+        
+        if (class_exists(Director::class)) {
+            Config::nest();
+            Director::config()->set('alternate_base_url', 'http://example.com/');
+            $this->assertEquals(
+                '<p>Replaced short code with this. <a href="http://example.com/home">home</a></p>',
+                $field->AbsoluteLinks()
+            );
+            Config::unnest();
+        }
+
         $this->assertEquals(
             'Replaced short code with this.',
             $field->LimitSentences(1)

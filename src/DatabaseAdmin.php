@@ -17,6 +17,10 @@ use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
 use SilverStripe\Versioned\Versioned;
 
+if (!class_exists(Controller::class)) {
+    return;
+}
+
 /**
  * DatabaseAdmin class
  *

@@ -67,12 +67,14 @@ class DataObjectTest extends SapphireTest
     {
         parent::setUp();
 
-        $validator = Member::password_validator();
-        if ($validator) {
-            // Set low default password strength requirements so tests are not interfered with by user code
-            $validator
-                ->setMinTestScore(0)
-                ->setMinLength(6);
+        if (class_exists(Member::class)) {
+            $validator = Member::password_validator();
+            if ($validator) {
+                // Set low default password strength requirements so tests are not interfered with by user code
+                $validator
+                    ->setMinTestScore(0)
+                    ->setMinLength(6);
+            }
         }
     }
 

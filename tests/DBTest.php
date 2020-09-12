@@ -2,7 +2,6 @@
 
 namespace SilverStripe\ORM\Tests;
 
-use SilverStripe\Control\Director;
 use SilverStripe\Core\Environment;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Core\Kernel;

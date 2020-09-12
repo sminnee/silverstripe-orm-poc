@@ -3,7 +3,6 @@
 namespace SilverStripe\Dev\State;
 
 use LogicException;
-use SilverStripe\Control\Director;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Core\Manifest\ClassLoader;
 use SilverStripe\Dev\FixtureFactory;
@@ -198,7 +197,7 @@ class FixtureTestState implements TestState
         }
 
         // Check if file exists relative to base dir
-        $resolvedPath = realpath(Director::baseFolder() . '/' . $fixtureFilePath);
+        $resolvedPath = realpath(BASE_PATH . '/' . $fixtureFilePath);
         if ($resolvedPath) {
             return $resolvedPath;
         }

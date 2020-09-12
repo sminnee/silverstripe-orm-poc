@@ -2,11 +2,11 @@
 
 namespace SilverStripe\Dev;
 
-use SilverStripe\Control\Director;
+use InvalidArgumentException;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Injector\Injectable;
+use SilverStripe\Core\Path;
 use Symfony\Component\Yaml\Parser;
-use InvalidArgumentException;
 
 /**
  * Uses Symfony's YAML component to parse a YAML document (see http://yaml.org).
@@ -94,8 +94,8 @@ class YamlFixture
         if (false !== strpos($fixture, "\n")) {
             $this->fixtureString = $fixture;
         } else {
-            if (!Director::is_absolute($fixture)) {
-                $fixture = Director::baseFolder() . '/' . $fixture;
+            if (!Path::isAbsolute($fixture)) {
+                $fixture = BASE_PATH . '/' . $fixture;
             }
 
             if (!file_exists($fixture)) {

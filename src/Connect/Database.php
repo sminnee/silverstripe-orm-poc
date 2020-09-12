@@ -2,16 +2,18 @@
 
 namespace SilverStripe\ORM\Connect;
 
+use BadMethodCallException;
+use Exception;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Core\Kernel;
+use SilverStripe\Dev\Backtrace;
 use SilverStripe\Dev\Debug;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\PaginatedList;
-use SilverStripe\ORM\Queries\SQLUpdate;
 use SilverStripe\ORM\Queries\SQLInsert;
-use BadMethodCallException;
-use Exception;
-use SilverStripe\Dev\Backtrace;
+use SilverStripe\ORM\Queries\SQLUpdate;
 
 /**
  * Abstract database connectivity class.
@@ -202,7 +204,7 @@ abstract class Database
         // Only preview if previewWrite is set, we are in dev mode, and
         // the query is mutable
         if (isset($_REQUEST['previewwrite'])
-            && Director::isDev()
+            && Injector::inst()->get(Kernel::class)->getEnvironment() === 'dev'
             && $this->connector->isQueryMutable($sql)
         ) {
             // output preview message
@@ -223,7 +225,7 @@ abstract class Database
      */
     protected function benchmarkQuery($sql, $callback, $parameters = [])
     {
-        if (isset($_REQUEST['showqueries']) && Director::isDev()) {
+        if (isset($_REQUEST['showqueries']) && Injector::inst()->get(Kernel::class)->getEnvironment() === 'dev') {
             $displaySql = true;
             $this->queryCount++;
             $starttime = microtime(true);

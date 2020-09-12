@@ -14,6 +14,11 @@ class DBVarcharTest extends SapphireTest
 
     public function testScaffold()
     {
+        if (!class_exists(TextField::class)) {
+            $this->markTestSkipped('silverstripe/forms required');
+            return;
+        }
+
         $obj = new DBVarcharTest\TestObject();
         /** @var TextField $field */
         $field = $obj->dbObject('Title')->scaffoldFormField();

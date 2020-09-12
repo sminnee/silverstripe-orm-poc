@@ -2,6 +2,7 @@
 
 namespace SilverStripe\ORM\FieldType;
 
+use LogicException;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\ORM\DB;
@@ -56,6 +57,9 @@ class DBBoolean extends DBField
 
     public function scaffoldFormField($title = null, $params = null)
     {
+        if (!class_exists(CheckboxField::class)) {
+            throw new LogicException('scaffoldFormField() requires silverstripe/forms installed');
+        }
         return CheckboxField::create($this->name, $title);
     }
 

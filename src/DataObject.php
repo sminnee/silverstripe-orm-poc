@@ -2317,7 +2317,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
     public function getDefaultSearchContext()
     {
         if (!class_exists(FieldList::class)) {
-            throw new \LogicException('SearchContext requires the silverstripe/forms package to function');
+            throw new \LogicException('SearchContext requires silverstripe/forms installed');
         }
 
         return SearchContext::create(
@@ -2419,6 +2419,10 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
      */
     public function scaffoldFormFields($_params = null)
     {
+        if (!class_exists(FormScaffolder::class)) {
+            throw new LogicException('scaffoldFormFields() requires silverstripe/forms installed');
+        }
+
         $params = array_merge(
             [
                 'tabbed' => false,
@@ -3707,8 +3711,13 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
                 ];
             }
             if (!isset($rewrite[$identifer]['title'])) {
-                $rewrite[$identifer]['title'] = (isset($labels[$identifer]))
-                    ? $labels[$identifer] : FormField::name_to_label($identifer);
+                if (isset($labels[$identifer])) {
+                    $rewrite[$identifer]['title'] = $labels[$identifer];
+                } elseif (class_exists(FormField::class)) {
+                    $rewrite[$identifer]['title'] = FormField::name_to_label($identifer);
+                } else {
+                    $rewrite[$identifer]['title'] = $identifer;
+                }
             }
             if (!isset($rewrite[$identifer]['filter'])) {
                 /** @skipUpgrade */

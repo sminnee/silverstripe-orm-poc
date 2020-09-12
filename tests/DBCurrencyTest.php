@@ -45,6 +45,11 @@ class DBCurrencyTest extends SapphireTest
 
     public function testScaffoldedField()
     {
+        if (!class_exists(CurrencyField::class)) {
+            $this->markTestSkipped('silverstripe/forms required');
+            return;
+        }
+
         // Test DBCurrency scaffolds a CurrencyField
         $currencyDbField = DBCurrency::create('Currency');
         $scaffoldedField = $currencyDbField->scaffoldFormField();

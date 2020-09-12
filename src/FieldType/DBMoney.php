@@ -2,6 +2,7 @@
 
 namespace SilverStripe\ORM\FieldType;
 
+use LogicException;
 use NumberFormatter;
 use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\MoneyField;
@@ -183,6 +184,9 @@ class DBMoney extends DBComposite
      */
     public function scaffoldFormField($title = null, $params = null)
     {
+        if (!class_exists(MoneyField::class)) {
+            throw new LogicException('scaffoldFormField() requires silverstripe/forms installed');
+        }
         return MoneyField::create($this->getName(), $title)
             ->setLocale($this->getLocale());
     }

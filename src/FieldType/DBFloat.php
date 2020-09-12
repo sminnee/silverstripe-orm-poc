@@ -2,6 +2,7 @@
 
 namespace SilverStripe\ORM\FieldType;
 
+use LogicException;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\ORM\DB;
 
@@ -52,6 +53,9 @@ class DBFloat extends DBField
 
     public function scaffoldFormField($title = null, $params = null)
     {
+        if (!class_exists(NumericField::class)) {
+            throw new LogicException('scaffoldFormField() requires silverstripe/forms installed');
+        }
         $field = NumericField::create($this->name, $title);
         $field->setScale(null); // remove no-decimal restriction
         return $field;

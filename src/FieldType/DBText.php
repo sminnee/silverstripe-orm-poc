@@ -2,14 +2,15 @@
 
 namespace SilverStripe\ORM\FieldType;
 
+use InvalidArgumentException;
+use LogicException;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Convert;
 use SilverStripe\Core\Injector\Injector;
-use SilverStripe\Forms\TextareaField;
 use SilverStripe\Forms\NullableField;
+use SilverStripe\Forms\TextareaField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DB;
-use InvalidArgumentException;
 
 /**
  * Represents a variable-length string of up to 16 megabytes, designed to store raw text
@@ -257,6 +258,9 @@ class DBText extends DBString
 
     public function scaffoldFormField($title = null, $params = null)
     {
+        if (!class_exists(TextareaField::class)) {
+            throw new LogicException('scaffoldFormField() requires silverstripe/forms installed');
+        }
         if (!$this->nullifyEmpty) {
             // Allow the user to select if it's null instead of automatically assuming empty string is
             return NullableField::create(TextareaField::create($this->name, $title));

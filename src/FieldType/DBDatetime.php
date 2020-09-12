@@ -5,6 +5,7 @@ namespace SilverStripe\ORM\FieldType;
 use Exception;
 use IntlDateFormatter;
 use InvalidArgumentException;
+use LogicException;
 use SilverStripe\Forms\DatetimeField;
 use SilverStripe\ORM\DB;
 use SilverStripe\Security\Member;
@@ -139,6 +140,9 @@ class DBDatetime extends DBDate
 
     public function scaffoldFormField($title = null, $params = null)
     {
+        if (!class_exists(DatetimeField::class)) {
+            throw new LogicException('scaffoldFormField() requires silverstripe/forms installed');
+        }
         $field = DatetimeField::create($this->name, $title);
         $dateTimeFormat = $field->getDatetimeFormat();
         $locale = $field->getLocale();

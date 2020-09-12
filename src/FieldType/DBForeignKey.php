@@ -10,6 +10,7 @@ use SilverStripe\Forms\FileHandleField;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
+use LogicException;
 
 /**
  * A special type Int field used for foreign keys in has_one relationships.
@@ -58,6 +59,9 @@ class DBForeignKey extends DBInt
 
     public function scaffoldFormField($title = null, $params = null)
     {
+        if (!class_exists(DropdownField::class)) {
+            throw new LogicException('scaffoldFormField() requires silverstripe/forms installed');
+        }
         if (empty($this->object)) {
             return null;
         }
@@ -67,7 +71,7 @@ class DBForeignKey extends DBInt
             return null;
         }
         $hasOneSingleton = singleton($hasOneClass);
-        if ($hasOneSingleton instanceof File) {
+        if (class_exists(File::class) && $hasOneSingleton instanceof File) {
             $field = Injector::inst()->create(FileHandleField::class, $relationName, $title);
             if ($hasOneSingleton instanceof Image) {
                 $field->setAllowedFileCategories('image/supported');

@@ -2,20 +2,21 @@
 
 namespace SilverStripe\ORM\Search;
 
+use Exception;
+use InvalidArgumentException;
+use LogicException;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Injector\Injectable;
+use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormField;
-use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\DataList;
-use SilverStripe\ORM\Filters\SearchFilter;
-use SilverStripe\ORM\ArrayList;
-use SilverStripe\View\ArrayData;
 use SilverStripe\Forms\SelectField;
-use SilverStripe\Forms\CheckboxField;
-use InvalidArgumentException;
-use Exception;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\Filters\SearchFilter;
+use SilverStripe\View\ArrayData;
 
 /**
  * Manages searching of properties on one or more {@link DataObject}
@@ -95,7 +96,7 @@ class SearchContext
     public function __construct($modelClass, $fields = null, $filters = null)
     {
         if (!class_exists(FieldList::class)) {
-            throw new \LogicException('SearchContext requires the silverstripe/forms package to function');
+            throw new LogicException('SearchContext requires silverstripe/forms installed');
         }
 
         $this->modelClass = $modelClass;

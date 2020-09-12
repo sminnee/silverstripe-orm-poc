@@ -14,6 +14,11 @@ class DBYearTest extends SapphireTest
      */
     public function testScaffoldFormFieldFirst()
     {
+        if (!class_exists(DropdownField::class)) {
+            $this->markTestSkipped('silverstripe/forms required');
+            return;
+        }
+
         $year = new DBYear();
         $field = $year->scaffoldFormField("YearTest");
         $this->assertEquals(DropdownField::class, get_class($field));
@@ -31,6 +36,11 @@ class DBYearTest extends SapphireTest
 
     public function testScaffoldFormFieldLast()
     {
+        if (!class_exists(DropdownField::class)) {
+            $this->markTestSkipped('silverstripe/forms required');
+            return;
+        }
+
         $year = new DBYear();
         $field = $year->scaffoldFormField("YearTest");
         $source = $field->getSource();

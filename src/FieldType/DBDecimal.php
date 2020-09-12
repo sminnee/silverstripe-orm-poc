@@ -2,8 +2,9 @@
 
 namespace SilverStripe\ORM\FieldType;
 
-use SilverStripe\ORM\DB;
+use LogicException;
 use SilverStripe\Forms\NumericField;
+use SilverStripe\ORM\DB;
 
 /**
  * Represents a Decimal field.
@@ -102,6 +103,9 @@ class DBDecimal extends DBField
      */
     public function scaffoldFormField($title = null, $params = null)
     {
+        if (!class_exists(NumericField::class)) {
+            throw new LogicException('scaffoldFormField() requires silverstripe/forms installed');
+        }
         return NumericField::create($this->name, $title)
             ->setScale($this->decimalSize);
     }

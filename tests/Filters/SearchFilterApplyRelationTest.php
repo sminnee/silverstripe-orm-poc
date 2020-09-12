@@ -5,6 +5,7 @@ namespace SilverStripe\ORM\Tests\Filters;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
+use SilverStripe\Forms\FormField;
 
 /**
  * This test class will focus on the when an search filter contains relational
@@ -29,6 +30,15 @@ class SearchFilterApplyRelationTest extends SapphireTest
         SearchFilterApplyRelationTest\ManyManyChild::class,
         SearchFilterApplyRelationTest\ManyManyGrandChild::class,
     ];
+
+    public function setUp()
+    {
+        parent::setUp();
+        if (!class_exists(FormField::class)) {
+            $this->markTestSkipped('silverstripe/forms required');
+            return;
+        }
+    }
 
     public function testApplyRelationHasOne()
     {

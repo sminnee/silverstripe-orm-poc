@@ -4,6 +4,7 @@ namespace SilverStripe\ORM\FieldType;
 
 use IntlDateFormatter;
 use InvalidArgumentException;
+use LogicException;
 use SilverStripe\Forms\TimeField;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\DB;
@@ -142,6 +143,9 @@ class DBTime extends DBField
 
     public function scaffoldFormField($title = null, $params = null)
     {
+        if (!class_exists(TimeField::class)) {
+            throw new LogicException('scaffoldFormField() requires silverstripe/forms installed');
+        }
         return TimeField::create($this->name, $title);
     }
 

@@ -2,6 +2,7 @@
 
 namespace SilverStripe\ORM\FieldType;
 
+use LogicException;
 use SilverStripe\Forms\CurrencyField;
 
 /**
@@ -78,6 +79,9 @@ class DBCurrency extends DBDecimal
      */
     public function scaffoldFormField($title = null, $params = null)
     {
+        if (!class_exists(CurrencyField::class)) {
+            throw new LogicException('scaffoldFormField() requires silverstripe/forms installed');
+        }
         return CurrencyField::create($this->getName(), $title);
     }
 }

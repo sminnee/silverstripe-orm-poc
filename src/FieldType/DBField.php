@@ -3,6 +3,7 @@
 namespace SilverStripe\ORM\FieldType;
 
 use InvalidArgumentException;
+use LogicException;
 use SilverStripe\Core\Convert;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\FormField;
@@ -557,6 +558,9 @@ abstract class DBField extends ViewableData implements DBIndexable
      */
     public function scaffoldFormField($title = null, $params = null)
     {
+        if (!class_exists(TextField::class)) {
+            throw new LogicException('scaffoldFormField() requires silverstripe/forms installed');
+        }
         return TextField::create($this->name, $title);
     }
 

@@ -4,6 +4,7 @@ namespace SilverStripe\ORM\FieldType;
 
 use IntlDateFormatter;
 use InvalidArgumentException;
+use LogicException;
 use NumberFormatter;
 use SilverStripe\Forms\DateField;
 use SilverStripe\i18n\i18n;
@@ -573,6 +574,9 @@ class DBDate extends DBField
 
     public function scaffoldFormField($title = null, $params = null)
     {
+        if (!class_exists(DateField::class)) {
+            throw new LogicException('scaffoldFormField() requires silverstripe/forms installed');
+        }
         $field = DateField::create($this->name, $title);
         $field->setHTML5(true);
 

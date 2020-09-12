@@ -2,9 +2,10 @@
 
 namespace SilverStripe\ORM\FieldType;
 
+use LogicException;
 use SilverStripe\Forms\NumericField;
-use SilverStripe\ORM\DB;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DB;
 use SilverStripe\View\ArrayData;
 
 /**
@@ -58,6 +59,9 @@ class DBInt extends DBField
 
     public function scaffoldFormField($title = null, $params = null)
     {
+        if (!class_exists(NumericField::class)) {
+            throw new LogicException('scaffoldFormField() requires silverstripe/forms installed');
+        }
         return NumericField::create($this->name, $title);
     }
 

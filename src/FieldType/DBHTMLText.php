@@ -2,11 +2,12 @@
 
 namespace SilverStripe\ORM\FieldType;
 
+use LogicException;
+use SilverStripe\Control\HTTP;
 use SilverStripe\Core\Convert;
 use SilverStripe\Core\Injector\Injector;
-use SilverStripe\Control\HTTP;
-use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
+use SilverStripe\Forms\TextField;
 use SilverStripe\View\Parsers\HTMLValue;
 use SilverStripe\View\Parsers\ShortcodeParser;
 
@@ -203,11 +204,17 @@ class DBHTMLText extends DBText
 
     public function scaffoldFormField($title = null, $params = null)
     {
+        if (!class_exists(HTMLEditorField::class)) {
+            throw new LogicException('scaffoldFormField() requires silverstripe/forms installed');
+        }
         return HTMLEditorField::create($this->name, $title);
     }
 
     public function scaffoldSearchField($title = null)
     {
+        if (!class_exists(TextField::class)) {
+            throw new LogicException('scaffoldSearchField() requires silverstripe/forms installed');
+        }
         return new TextField($this->name, $title);
     }
 

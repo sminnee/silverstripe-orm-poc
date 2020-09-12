@@ -4,6 +4,7 @@ namespace SilverStripe\ORM\Tests;
 
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\ORM\FieldType\DBDecimal;
+use SilverStripe\Forms\FormField;
 
 class DecimalTest extends SapphireTest
 {
@@ -63,6 +64,11 @@ class DecimalTest extends SapphireTest
 
     public function testScaffoldFormField()
     {
+        if (!class_exists(FormField::class)) {
+            $this->markTestSkipped('silverstripe/forms required');
+            return;
+        }
+
         /** @var DBDecimal $decimal */
         $decimal = $this->testDataObject->dbObject('MyDecimal2');
         $field = $decimal->scaffoldFormField('The Decimal');

@@ -132,6 +132,9 @@ class DBEnum extends DBString
      */
     public function formField($title = null, $name = null, $hasEmpty = false, $value = "", $emptyString = null)
     {
+        if (!class_exists(DropdownField::class)) {
+            throw new LogicException('scaffoldFormField() requires silverstripe/forms installed');
+        }
 
         if (!$title) {
             $title = $this->getName();

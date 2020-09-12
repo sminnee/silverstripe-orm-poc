@@ -2,6 +2,7 @@
 
 namespace SilverStripe\ORM\FieldType;
 
+use LogicException;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\NullableField;
 use SilverStripe\Forms\TextField;
@@ -123,6 +124,9 @@ class DBVarchar extends DBString
 
     public function scaffoldFormField($title = null, $params = null)
     {
+        if (!class_exists(TextField::class)) {
+            throw new LogicException('scaffoldFormField() requires silverstripe/forms installed');
+        }
         // Set field with appropriate size
         $field = TextField::create($this->name, $title);
         $field->setMaxLength($this->getSize());

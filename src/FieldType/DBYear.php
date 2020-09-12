@@ -2,6 +2,7 @@
 
 namespace SilverStripe\ORM\FieldType;
 
+use LogicException;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\ORM\DB;
 
@@ -20,6 +21,9 @@ class DBYear extends DBField
 
     public function scaffoldFormField($title = null, $params = null)
     {
+        if (!class_exists(DropdownField::class)) {
+            throw new LogicException('scaffoldFormField() requires silverstripe/forms installed');
+        }
         $selectBox = DropdownField::create($this->name, $title);
         $selectBox->setSource($this->getDefaultOptions());
         return $selectBox;

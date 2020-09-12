@@ -5,7 +5,7 @@ namespace SilverStripe\ORM\Tests;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\Security\Member;
+use SilverStripe\Forms\FormField;
 
 class DataExtensionTest extends SapphireTest
 {
@@ -209,6 +209,11 @@ class DataExtensionTest extends SapphireTest
 
     public function testPageFieldGeneration()
     {
+        if (!class_exists(FormField::class)) {
+            $this->markTestSkipped('silverstripe/forms required');
+            return;
+        }
+
         $page = new DataExtensionTest\CMSFieldsBase();
         $fields = $page->getCMSFields();
         $this->assertNotEmpty($fields);
@@ -219,6 +224,11 @@ class DataExtensionTest extends SapphireTest
 
     public function testPageExtensionsFieldGeneration()
     {
+        if (!class_exists(FormField::class)) {
+            $this->markTestSkipped('silverstripe/forms required');
+            return;
+        }
+
         $page = new DataExtensionTest\CMSFieldsBase();
         $fields = $page->getCMSFields();
         $this->assertNotEmpty($fields);
@@ -230,6 +240,11 @@ class DataExtensionTest extends SapphireTest
 
     public function testSubpageFieldGeneration()
     {
+        if (!class_exists(FormField::class)) {
+            $this->markTestSkipped('silverstripe/forms required');
+            return;
+        }
+
         $page = new DataExtensionTest\CMSFieldsChild();
         $fields = $page->getCMSFields();
         $this->assertNotEmpty($fields);
@@ -246,6 +261,11 @@ class DataExtensionTest extends SapphireTest
 
     public function testSubSubpageFieldGeneration()
     {
+        if (!class_exists(FormField::class)) {
+            $this->markTestSkipped('silverstripe/forms required');
+            return;
+        }
+
         $page = new DataExtensionTest\CMSFieldsGrandChild();
         $fields = $page->getCMSFields();
         $this->assertNotEmpty($fields);

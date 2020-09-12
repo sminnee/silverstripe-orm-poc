@@ -1,20 +1,22 @@
 language: php
 
+services:
+  - mysql
+
+env:
+  global:
+    - SS_DATABASE_CLASS=MySQLDatabase
+    - SS_DATABASE_USERNAME=root
+    - SS_DATABASE_CHOOSE_NAME=1
+
 matrix:
   fast_finish: true
   include:
     - php: 7.1
-      env:
-       - DB=MYSQL
     - php: 7.2
-      env:
-       - DB=MYSQL
     - php: 7.3
-      env:
-       - DB=MYSQL
     - php: 7.4
       env:
-       - DB=MYSQL
        - PHPCS_TEST=1
 
 before_script:
@@ -22,4 +24,4 @@ before_script:
 
 script:
   - vendor/bin/phpunit
-  - if [[ $PHPCS_TEST ]]; then vendor/bin/phpcs tests src srcDev; fi
+  - if [[ $PHPCS_TEST ]]; then vendor/bin/phpcs tests src; fi

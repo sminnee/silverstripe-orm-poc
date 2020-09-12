@@ -10,7 +10,7 @@
         }
     ],
     "require":   {
-        "silverstripe/core": "*",
+        "silverstripe/core": "*@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7.27",
@@ -25,5 +25,11 @@
         "classmap": [
             "src/_legacy"
         ]
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git://github.com/sminnee/silverstripe-core-poc.git"
+        }
+    ]
 }
